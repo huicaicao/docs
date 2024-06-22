@@ -76,4 +76,17 @@ head:
       },
     },
 
-### 搜索
+## 搜索
+
+    search: {
+      provider: "local",
+    },
+
+## 部署
+
+1.点击 GitHub 仓库的 Seting 2.点击 Pages 3.点击 Branch 4.选择分支 docs 5. 点击 Save
+
+## 如何访问
+
+https://huicaicao.github.io./docs/
+{gitHub 的名称.github.io/项目名称}
