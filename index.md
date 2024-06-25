@@ -3,22 +3,19 @@
 layout: home
 
 hero:
-  name: "前端笔记"
+  name: "小灰灰"
   text: "CHC"
-  tagline: My great project tagline
+  tagline: 欢迎来到小灰灰前端笔记
   actions:
-    - theme: brand
-      text: Markdown Examples
+    - theme: Welcome!
+      text: 准备进入小灰灰的比较吧!
       link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 小灰灰...
+    details: 想好写点什么好呢...
+  - title: 小灰灰...
+    details: 想好写点什么好呢...
+  - title: 小灰灰...
+    details: 想好写点什么好呢...
 ---

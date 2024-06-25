@@ -1,16 +1,24 @@
 import { defineConfig } from "vitepress";
-
+import { basicsNav } from "./basics/index";
+import { networkNav } from "./network/index";
+import { browserNav } from "./browser/index";
+import { buildToolsNav } from "./buildTools/index";
+import { frameworksNav } from "./frameworks/index";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "My Awesome Project",
+  title: "小灰灰的博客",
   description: "A VitePress Site",
   outDir: "docs",
   base: "/docs/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: "Home", link: "/" },
-      { text: "Examples", link: "/markdown-examples" },
+      { text: "首页", link: "/" },
+      basicsNav,
+      networkNav,
+      browserNav,
+      buildToolsNav,
+      frameworksNav,
     ],
     // 修改页脚
     docFooter: {
@@ -29,13 +37,11 @@ export default defineConfig({
     search: {
       provider: "local",
     },
+    // 侧边栏
     sidebar: [
       {
-        text: "Examples",
-        items: [
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
-        ],
+        text: "vitePress",
+        items: [{ text: "", link: "" }],
       },
     ],
     // 右上角
