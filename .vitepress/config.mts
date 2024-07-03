@@ -11,7 +11,6 @@ export default defineConfig({
   description: "A VitePress Site",
   outDir: "docs",
   base: "/docs/",
-
   themeConfig: {
     logo: "/public/img/logo.jpg",
     // https://vitepress.dev/reference/default-theme-config

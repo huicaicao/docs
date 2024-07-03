@@ -46,6 +46,53 @@ UV 是指独立访问量 Unique visitor 就是一个 IP 地址访问某个网站
 ## 埋点实现
 
 ```js
+前端:
+import { getUserInfo } from "./user/index";
+import button from "./button/index";
+import Error from "./error/window";
+import promiseError from "./promise/index";
+import ajax from "./request/index";
+import Pv from "./PV/page";
+import onePage from "./timePage/index";
+import { Types } from "./type";
+export class Tracker {
+  events: Record<string, Function>;
+  constructor() {
+    this.events = { button, Error, promiseError, ajax, Pv, onePage };
+
+    this.init();
+  }
+
+  // 静态方法 哪里都可以使用
+  public SendRequest(params: Types) {
+    const userInfo = getUserInfo();
+    const body = Object.assign({}, userInfo, params);
+    // 请求接口  axios fetch ajax 在这里都不能使用必须使用埋点专用接口
+    // 为什么不能使用 情况 点击按钮  关闭页面 接口没有走完接口 丢失了一条消息
+    // navigator.sendBeacon 完美解决解决这个问题 即使浏览器关闭 也要走完这个接口
+    // navigator.sendBeacon 默认请求方式是post
+    // 注意点1 ping请求 传递速度快 内容要短
+    // 注意点2 不能传递json 利用blob传递json对象 设置type "application/json"
+    // 注意点3 使用json之后会跨域
+    // 注意点4 发送请求的时候 浏览器会自动携带一些信息 比如cookie 这些信息是用户隐私 需要用户授权
+    let blob = new Blob([JSON.stringify(body)], {
+      type: "application/json",
+    });
+    navigator.sendBeacon("http://localhost:3000/tracker", blob);
+  }
+
+  //只能在自己的类内部使用
+  private init() {
+    Object.keys(this.events).forEach((key) => {
+      // this.events[key] 就是 Button 类的实例
+      // this.SendRequest 是 Tracker 类的实例
+      //传入this.SendRequest 是为了让Button类里的sendRequest方法可以使用
+      this.events[key](this.SendRequest);
+    });
+  }
+  // protected 可以在类里使用也可以在其他使用
+}
+
 服务端: 给中间件设置: res.setHeader(
   "Access-Control-Allow-Origin",
   "http://127.0.0.1:5174"
