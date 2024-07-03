@@ -4,13 +4,16 @@ import { networkNav } from "./network/index";
 import { browserNav } from "./browser/index";
 import { buildToolsNav } from "./buildTools/index";
 import { frameworksNav } from "./frameworks/index";
+import { OtherNav } from "./Other/index";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "小灰灰的博客",
   description: "A VitePress Site",
   outDir: "docs",
   base: "/docs/",
+
   themeConfig: {
+    logo: "/public/img/logo.jpg",
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "首页", link: "/" },
@@ -19,6 +22,7 @@ export default defineConfig({
       browserNav,
       buildToolsNav,
       frameworksNav,
+      OtherNav,
     ],
     // 修改页脚
     docFooter: {
