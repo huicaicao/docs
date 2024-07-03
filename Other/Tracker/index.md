@@ -83,6 +83,7 @@ export class Tracker {
 
   //只能在自己的类内部使用
   private init() {
+    // 插件
     Object.keys(this.events).forEach((key) => {
       // this.events[key] 就是 Button 类的实例
       // this.SendRequest 是 Tracker 类的实例
