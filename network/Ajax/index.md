@@ -22,7 +22,7 @@ xhr.onload = function () {
 };
 // 进度条
 xhr.onprogress = function (e) {
-  // 总进度处于当前进度
+  // 总进度除以当前进度
   progress.innerHTML = ((e.loaded / e.total) * 100).toFixed(2) + "%";
   // 进度条
   console.log((e.loaded / e.total) * 100);
