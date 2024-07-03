@@ -1,14 +1,13 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
-
 hero:
   name: "小灰灰"
   text: "CHC"
   tagline: 欢迎来到小灰灰前端笔记
   actions:
     - theme: Welcome!
-      text: 准备进入小灰灰的比较吧!
+      text: 准备进入小灰灰的笔记吧!
       link: /markdown-examples
 
 features:
