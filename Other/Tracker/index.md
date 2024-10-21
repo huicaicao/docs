@@ -45,8 +45,14 @@ UV 是指独立访问量 Unique visitor 就是一个 IP 地址访问某个网站
 
 ## 埋点实现
 
+结构
+
+```md
+![alt text](image.png)
+```
+
 ```js
-前端:
+前端: lib/index.ts
 import { getUserInfo } from "./user/index";
 import button from "./button/index";
 import Error from "./error/window";
@@ -94,12 +100,104 @@ export class Tracker {
   // protected 可以在类里使用也可以在其他使用
 }
 
-服务端: 给中间件设置: res.setHeader(
-  "Access-Control-Allow-Origin",
-  "http://127.0.0.1:5174"
-); //设置 \* 或者指定 IP
-res.setHeader("Access-Control-Allow-Credentials", "true"); //允许携带 cookie
-res.setHeader("Access-Control-Allow-Headers", "Content-Type"); //允许 application/json
+服务端: serve/index.ts
+import express from "express";
+import nodemailer from "nodemailer";
+
+const app = express();
+// 面试重点
+const transporter = nodemailer.createTransport({
+  service: "qq",
+  port: 465,
+  //服务器地址
+  host: "smtp.qq.com",
+  //签名
+  auth: {
+    user: "1204662735@qq.com",
+    pass: "hyhwaxgcfazfjabd",
+  },
+});
+app.use("*", (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); //设置 *  或者指定IP
+  res.setHeader("Access-Control-Allow-Credentials", "true"); //允许携带cookie
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type"); //允许 application/json
+  next();
+});
+// 接受post 请求 接受参数
+// app.ues 中间件 作用于所有请求
+app.use(express.json());
+app.post("/tracker", (req, res) => {
+  console.log(req.body); //接受post  query参数 params 接受动态参数
+  const body = req.body;
+  if (body.type === "error") {
+    transporter.sendMail({
+      from: "1204662735@qq.com",
+      to: "1204662735@qq.com",
+      //标题
+      subject: "错误信息",
+      //内容
+      text: JSON.stringify(body),
+    });
+  }
+  // 有序列表
+  // redis.rpush("tracker", JSON.stringify(body));
+  res.send("ok"); //注意一定要返回简短的东西
+});
+
+// 启动服务
+app.listen(3000, () => {
+  console.log("listening on port 3000");
+});
+
+```
+
+## 埋点服务端
+
+```js 后端 serve/index.ts
+import express from "express";
+import nodemailer from "nodemailer";
+
+const app = express();
+// 面试重点
+const transporter = nodemailer.createTransport({
+  service: "qq",
+  port: 465,
+  host: "smtp.qq.com",
+  //签名
+  auth: {
+    user: "1204662735@qq.com",
+    pass: "hyhwaxgcfazfjabd",
+  },
+});
+app.use("*", (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5174"); //设置 *  或者指定IP允许跨域
+  res.setHeader("Access-Control-Allow-Credentials", "true"); //允许携带cookie
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type"); //允许 application/json
+  next();
+});
+// 接受post 请求 接受参数
+// app.ues 中间件 作用于所有请求
+app.use(express.json());
+app.post("/tracker", (req, res) => {
+  console.log(req.body); //接受post  query参数 params 接受动态参数
+  const body = req.body;
+  if (body.type === "error") {
+    transporter.sendMail({
+      from: "1204662735@qq.com",
+      to: "1204662735@qq.com",
+      subject: "错误信息",
+      text: JSON.stringify(body),
+    });
+  }
+  // 有序列表
+  // redis.rpush("tracker", JSON.stringify(body));
+  res.send("ok"); //注意一定要返回简短的东西
+});
+
+// 启动服务
+app.listen(3000, () => {
+  console.log("listening on port 3000");
+});
 ```
 
 ## 按钮埋点
@@ -176,7 +274,7 @@ export default function request(send: Send) {
         url,
       },
     });
-    //重写方发接原来的this
+    //重写方法绑定原来的this
     OriginalOpen.call(this, method, url, async);
   };
   // 发送
@@ -233,7 +331,7 @@ export default function onePage(send: Send) {
     });
   });
   // childList 子节点发生变化 增删改查  attributes 属性发生变化
-  //   subtree所有子节点的变化 包括子节点的后台
+  //   subtree所有子节点的变化 包括子节点的后代
   //  如果是vue项目 把document 换成app
   ob.observe(document, { childList: true, subtree: true });
 }
@@ -337,7 +435,7 @@ export default function Error(send: Send) {
 ## 埋点类型约束
 
 ````js
-
+ lib /type/index.ts
 export interface Types<T = Record<string, any>> {
   type: string | null | number | undefined | boolean; //类型;
   text: string;

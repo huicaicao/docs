@@ -5,6 +5,7 @@ import { browserNav } from "./browser/index";
 import { buildToolsNav } from "./buildTools/index";
 import { frameworksNav } from "./frameworks/index";
 import { OtherNav } from "./Other/index";
+import { InterviewkQNav } from "./InterviewQuestions/index";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "小灰灰的博客",
@@ -22,6 +23,7 @@ export default defineConfig({
       buildToolsNav,
       frameworksNav,
       OtherNav,
+      InterviewkQNav,
     ],
     // 修改页脚
     docFooter: {

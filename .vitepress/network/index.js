@@ -19,5 +19,13 @@ export const networkNav = {
       text: "WebSocket",
       link: "/network/WebSocket",
     },
+    {
+      text: "Http缓存",
+      link: "/network/Http",
+    },
+    {
+      text: "Http2",
+      link: "/network/Http2",
+    },
   ],
 };
