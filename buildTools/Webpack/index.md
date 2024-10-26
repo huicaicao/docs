@@ -41,7 +41,8 @@ swc-loader 287ms
 
 1. 配置声明文件.vue
 
-```js 文件 shim.d.ts
+```js 文件
+// shim.d.ts
 declare module "*.vue" {
   import { DefineComponent } from "vue";
   const component: DefineComponent<{}, {}, any>;
