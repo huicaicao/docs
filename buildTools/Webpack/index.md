@@ -12,7 +12,7 @@
 4. plugins：插件，用于执行范围更广的任务。插件目的在于解决 loader 无法实现的其他事。
 5. mode：模式，指示 webpack 使用相应模式的配置。
 
-## webpack 构建工具
+## webpack 说明
 
 如果以后看到 cli 就是命令行工具
 命令行工具调用 npx
@@ -25,46 +25,112 @@ webpack5 自带 treeShaking 树摇技术
 以及永远走不进去的 if 会被摇掉
 webpack 只能支持 js 天然支持 json
 如果要处理文件 loader
-要指出 TS 需要 ts-loader 依赖 typescript
-如果要增加功能 plugin
+要支持 TS 需要 ts-loader 依赖 typescript 安装 npm i ts-loader typescript -D
+如果要增加功能 plugin 每一个插件都是一个类
 
 优化编译速度 ts-loader 使用 swc 技术
 ts-loader 3431ms
 swc-loader 287ms
-图片使用 url-loader file-loader
+图片使用 url-loader/file-loader
 区别
 
 1. url-loader 默认打包成 base64 file-loader 压缩图片
 2. file-loader 没有 limit 压缩图片的大小
 
-## webpack 使用 Vue
+## webpack 配置 Vue
 
 1. 配置声明文件.vue
+
+```js 文件 shim.d.ts
+declare module "*.vue" {
+  import { DefineComponent } from "vue";
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
+```
+
 2. 声明和挂载 APP
-3. 安装插件 npm i html-webpack-plugin -D
+
+```js
+import { createApp } from "vue";
+import App from "./App.vue";
+const app = createApp(App);
+app.mount("#app");
+```
+
+3. 安装插件 npm i html-webpack-plugin -D 识别 html
+
+```js
+  plugins: [
+    new htmlWebpackPlugin({
+      template: "./index.html",
+    }),
+    new VueLoaderPlugin(),
+  ],
+```
+
+4. 安装 vue-loader npm i Vue-loader 以及配置
+
+```js
+  { test: /\.vue$/,
+    loader: "vue-loader",
+    }
+```
 
 ## webpack vue 支持 TS
 
+```js
+安装 npm i -D @swc/core swc-loader
 方案一:把 swc-loader 改成 ts-loader
+   use:{
+          loader: 'ts-loader',
+          options: {
+                appendTsSuffixTo: [/\.vue$/]
+                }
+    }
+方案二:swc 加一个配置项
+    use: {
+        loader: "swc-loader",
+          options: {
+            jsc: {
+              parser: {
+                  syntax: "typescript",
+                  tsx: true,
+                },
+              },
+            },
+        },
+```
 
-配置项 use:{
-loader: 'ts-loader',
-options: {
-appendTsSuffixTo: [/\.vue$/]
+## webpack vue 支持 css
+
+方案一
+npm i -D css-loader style-loader
+css-loader 作用把 css 文件变成 js 文件
+style-loader 作用把 css-loader 处理的结果 动态生成 style 标签插入到 dom 中
+
+```js
+  {
+    test: /\.css$/,
+    use:['style-loader','css-loader'] //顺序从右往左
 }
+{
+  //  npm i less-loader
+    test: /\.less$/,
+    use:['style-loader','css-loader','less-loader'] //顺序从右往左
 }
-方案二：swc 加一个配置项
-use: {
-loader: "swc-loader",
-options: {
-jsc: {
-parser: {
-syntax: "typescript",
-tsx: true,
-},
-},
-},
-},
+```
+
+方案二
+npm i -D mini-css-extract-plugin
+将 css 提取到单独的 css 文件中
+
+```js
+  {
+    test: /\.css$/,
+    use:[MiniCssExtractPlugin.loader,'css-loader'] //顺序从右往左
+}
+```
 
 ## webpack 配置
 
@@ -139,7 +205,7 @@ const config = {
       //配置 css 结尾
       {
         test: /\.css$/,
-        //流程 把css-loader是一段js处理的结果传给 sMiniCssExtractPlugin拿到结果动态生成标签
+        //流程 把css-loader是一段js处理的结果传给 MiniCssExtractPlugin拿到结果动态生成标签
         use: [MiniCssExtractPlugin.loader, "css-loader"], //从右往左的
       },
       //配置sass
@@ -329,4 +395,3 @@ export default {
   ],
 };
 ```
-
