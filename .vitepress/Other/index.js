@@ -22,5 +22,9 @@ export const OtherNav = {
       text: "CiCd",
       link: "/Other/CiCd",
     },
+    {
+      text: "Nest",
+      link: "/Other/Nest",
+    },
   ],
 };

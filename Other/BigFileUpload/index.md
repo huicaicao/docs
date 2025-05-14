@@ -106,7 +106,7 @@ app.post("/merge", (req, res) => {
   //  2.根据文件名排序 为什么要进行排序 因为网络的快慢不同
   files.sort((a, b) => a.split("-")[0] - b.split("-")[0]);
   // process.cwd() 获取当前执行目录
-  //拼接切片内容
+  //拼接切片
   const video = path.join(process.cwd(), "video", `${req.body.fileName}.mp4`);
   // 3.合并切片
   files.forEach((item) => {

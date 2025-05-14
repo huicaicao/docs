@@ -55,6 +55,7 @@ app.listen(3001, () => console.log("Server is running on port 3000"));
 // 前端代理
 fetch('/api/jsonp').then(res => res.json()).then(res => console.log(res))
 proxy: {
+  //代理的名称
   "/api": {
     //代理只对开发环境有效 转发的地址后端
     target: "http://localhost:3001",
