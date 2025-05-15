@@ -61,57 +61,8 @@ vite 是新一代前端构建工具，官网地址：https://vitejs.cn，vite的
 * 对 TypeScript、JSX、CSS 等支持开箱即用
 * 真正的按需编译，不再等待整个应用编译完成
 * webpack构建 与 vite 构建对比图如下：
-
-**Bundle Based dev server**
-
- entry 
-
- route 
-
- route 
-
- ... 
-
- module 
-
- module 
-
- module 
-
- module 
-
- ... 
-
- Bundle 
-
- Server ready 
-
-**Native ESM based dev server**
-
-HTTP request 
-
-Dynamic import code split point 
-
- Server ready 
-
- entry 
-
- route 
-
- route 
-
- ... 
-
- module 
-
- module 
-
- module 
-
- module 
-
- module 
-
+image.png
+image.png
 * 具体操作如下
 
 ```bash
