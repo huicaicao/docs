@@ -10,7 +10,7 @@ import { InterviewkQNav } from "./InterviewQuestions/index";
 export default defineConfig({
   title: "小灰灰的博客",
   description: "A VitePress Site",
-  outDir: "docs",
+  outDir: "/docs/",
   base: "/",
   cacheDir: "./.vitepress/cache",
   themeConfig: {
