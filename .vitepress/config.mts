@@ -11,7 +11,7 @@ export default defineConfig({
   title: "小灰灰的博客",
   description: "快乐的小灰灰",
   outDir: "docs",
-  base: "/docs/",
+  base: "/",
   cacheDir: "./.vitepress/cache",
   themeConfig: {
     logo: "/public/img/logo.jpg",
